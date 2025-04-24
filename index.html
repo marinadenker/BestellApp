@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="DE">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./assets/icons/favicon.ico">
+    <link rel="stylesheet" href="./styles/standard.css">
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/fonts.css">
+    <!-- <link rel="stylesheet" href="./styles/basket.css"> -->
+    <script src="./scripts/data.js"></script>
+    <script src="./scripts/templates.js"></script>
+    <script src="./scripts/script.js"></script>
+    <title>Bestell App</title>
+</head>
+
+<body onload="init()" id="body">
+    <header>
+        <div>
+            <a href="#"><img class="logo" src="./assets/img/logo_bestellapp.svg"></a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <main>
+            <img class="restaurant-logo" src="./assets/img/logo_rund.png">
+            <img class="header-img" src="./assets/img/pizza.jpg">
+            <div class="content">
+                <h1>Restaurant Ofenzauber</h1>
+                <div class="restaurant-info">
+                    <img src="./assets/icons/ic_star.svg" alt="">
+                    <p>4,8 (300+)</p>
+                    <span class="divider">&bull;</span>
+                    <img src="./assets/icons/ic_pickup.svg" class="delivery-type-img">
+                    <p>30 - 45 min</p>
+                    <span class="divider">&bull;</span>
+                    <img src="./assets/icons/ic_delivery.svg" class="delivery-type-img">
+                    <p>4,99 €</p>
+                </div>
+                <nav>
+                    <a href="#Pizza">Pizza</a>
+                    <a href="#Nudeln">Nudeln</a>
+                    <a href="#Burger">Burger</a>
+                    <a href="#Salat">Salat</a>
+                    <a href="#Fingerfood">Fingerfood</a>
+                    <a href="#Getränke">Getränke</a>
+                </nav>
+                <div id="cards-container" class="cards-container"></div>
+            </div>
+        </main>
+
+        <div id="cart" class="sticky">
+            <div class="cart-header">
+                <h3>Warenkorb</h3>
+                <button id="close-btn" class="img-btn" onclick="toggleCart()">
+                    <img src="./assets/icons/ic_close.svg">
+                </button>
+            </div>
+            <div class="chose-delivery-type">
+                <button id="delivery" class="delivery-type-btn" onclick="toggleDeliveryType(true)">
+                    <div class="delivery-content">
+                        <img src="./assets/icons/ic_delivery.svg" class="delivery-type-img" alt="Lieferung">
+                        <div class="delivery-info">
+                            <p class="title">Lieferung</p>
+                            <p class="time">30 - 45 min</p>
+                        </div>
+                    </div>
+                </button>
+
+
+                <button id="pickup" class="delivery-type-btn" onclick="toggleDeliveryType(false)">
+                    <div class="delivery-content">
+                        <img src="./assets/icons/ic_pickup.svg" class="delivery-type-img" alt="Abholung">
+                        <div class="delivery-info">
+                            <p class="title">Abholung</p>
+                            <p class="time">20 min</p>
+                        </div>
+                    </div>
+                </button>
+            </div>
+
+            <div id="cart-content-container">
+                <div id="empty">
+                    <img class="cart-icon" src="./assets/icons/ic_cart.svg">
+                    <h3>Fülle deinen Warenkorb</h3>
+                    <p>Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle dein Essen.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cart-toggle" class="cart-toggle">
+        <div class="mobile-cart-container">
+            <button class="btn-order" onclick="toggleCart()">Warenkorb</button>
+        </div>
+    </div>
+    <a href="#" id="btn-to-top">
+        <img src="./assets/icons/ic_arrow_up.svg">
+    </a>
+    <footer>
+        <span>&copy; Copyright Marina Denker</span>
+    </footer>
+</body>
+
+</html>
