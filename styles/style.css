@@ -484,6 +484,14 @@ footer {
         background-color: rgb(220, 220, 220);
         border-radius: 5px;
     }
+
+    .restaurant-info p {
+        font-size: 0.7em;
+    }
+    
+    .content {
+        padding: 20px 20px;
+    }
    
     .section-header-img {
         height: 100px;
