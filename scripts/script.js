@@ -2,6 +2,8 @@ let deliveryCosts = 4.99;
 let totalCosts = 0;
 let isDelivery = true;
 let subtotal = 0;
+let waren = []; // save in object
+let isCartOpen = false;
 
 function calcSubtotal() {
   subtotal = 0;
@@ -26,7 +28,6 @@ function SumTotalCosts() {
     document.getElementById("total-costs-sum").innerHTML =
       totalCosts.toFixed(2) + " €";
   }
-
 }
 
 function init() {
@@ -53,9 +54,6 @@ function renderCart() {
   }
 }
 
-// save in object
-let waren = [];
-
 function addToCart(productName, productPrice) {
   const found = waren.find((el) => el.productName === productName);
   if (found) {
@@ -66,10 +64,8 @@ function addToCart(productName, productPrice) {
       productPrice: Number(productPrice).toFixed(2),
       productQuantity: 1,
     };
-
     waren.push(newcartItem);
   }
-
   renderCartItem();
 }
 
@@ -143,8 +139,6 @@ function decreaseSum(productName) {
   }
   renderCartItem();
 }
-
-let isCartOpen = false;
 
 function toggleCart() {
   isCartOpen = !isCartOpen;
