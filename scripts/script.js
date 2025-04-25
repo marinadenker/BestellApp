@@ -2,19 +2,18 @@ let deliveryCosts = 4.99;
 let totalCosts = 0;
 let isDelivery = true;
 let subtotal = 0;
-let waren = []; // save in object
+let products = [];
 let isCartOpen = false;
 
 function calcSubtotal() {
   subtotal = 0;
-  waren.forEach((el) => {
+  products.forEach((el) => {
     let cal = el.productQuantity * el.productPrice;
     subtotal = subtotal + cal;
   });
   if (document.getElementById("subtotal-sum")) {
     document.getElementById("subtotal-sum").innerHTML = subtotal.toFixed(2) + " €";
   }
-  
   SumTotalCosts();
 }
 
@@ -25,9 +24,9 @@ function SumTotalCosts() {
     totalCosts = subtotal;
   }
   if (document.getElementById("total-costs-sum")) {
-    document.getElementById("total-costs-sum").innerHTML =
-      totalCosts.toFixed(2) + " €";
-  }
+    document.getElementById("total-costs-sum").innerHTML = totalCosts.toFixed(2) + " €";
+    document.getElementById("total-costs-mobile").innerHTML = totalCosts.toFixed(2) + " €";
+  } 
 }
 
 function init() {
@@ -38,24 +37,24 @@ function init() {
 function getDishesData() {
   for (let categoryIndex = 0; categoryIndex < dishes.length; categoryIndex++) {
     let category = dishes[categoryIndex];
-    let categoryName = Object.keys(category)[0]; // z.B. "pizza", "pasta"
+    let categoryName = Object.keys(category)[0];
     let dishesInCategory = category[categoryName];
     let categoryImage = category.image;
-
-    createCategorySection(categoryName, dishesInCategory, categoryImage);
+    let cardsContainer = document.getElementById("cards-container");
+    createCategorySection(categoryName, dishesInCategory, categoryImage, cardsContainer);
   }
 }
 
 function renderCart() {
   let contentRef = document.getElementById("cart-content-container");
   contentRef.innerHTML = "";
-  for (let indexCart = 0; indexCart < waren.length; indexCart++) {
+  for (let indexCart = 0; indexCart < products.length; indexCart++) {
     contentRef.innerHTML += getCartTemplate(indexCart);
   }
 }
 
 function addToCart(productName, productPrice) {
-  const found = waren.find((el) => el.productName === productName);
+  const found = products.find((el) => el.productName === productName);
   if (found) {
     found.productQuantity++;
   } else {
@@ -64,42 +63,55 @@ function addToCart(productName, productPrice) {
       productPrice: Number(productPrice).toFixed(2),
       productQuantity: 1,
     };
-    waren.push(newcartItem);
+    products.push(newcartItem);
   }
   renderCartItem();
+}
+
+function calculateCartItemQuantity(){
+  let productCounts = 0;
+  products.forEach(product => {
+    productCounts = product.productQuantity + productCounts;
+  });
+  document.getElementById("product-count").innerHTML = productCounts;
 }
 
 function renderCartItem() {
   let cartContent = document.getElementById("cart-content-container");
   cartContent.innerHTML = "";
-  if (waren.length > 0) {
-    waren.forEach((element) => {
-      const cartItemHTML = renderCartItemTemplate(
-        element.productName,
-        element.productPrice,
-        element.productQuantity
-      );
-      cartContent.insertAdjacentHTML("beforeend", cartItemHTML);
-    });
+  if (products.length > 0) {
     calcData();
+    renderCartItems(cartContent);
+    toggleDeliveryType(isDelivery);
+    // document.getElementById("total-costs-mobile").innerHTML = totalCosts.toFixed(2) + " €";
   } else {
     cartContent.innerHTML = getEmptyCart();
+    document.getElementById("cart-costs-container").innerHTML = "";
+    document.getElementById("total-costs-mobile").innerHTML = "";
   }
+  calculateCartItemQuantity();
+}
+
+function renderCartItems(cartContent){
+  products.forEach((element) => {
+      const cartItemHTML = renderCartItemTemplate(element.productName, element.productPrice, element.productQuantity);
+      cartContent.insertAdjacentHTML("beforeend", cartItemHTML);
+    });
 }
 
 // render template for cost calculation
 function calcData() {
-  let cartContent = document.getElementById("cart-content-container");
+  let cartCostsContent = document.getElementById("cart-costs-container");
   const calcHTML = renderCalcTemplate();
-  cartContent.insertAdjacentHTML("beforeend", calcHTML);
+  cartCostsContent.innerHTML = calcHTML;
   calcSubtotal();
   SumTotalCosts();
 }
 
 // remove product from cart
 function removeFromCart(productName) {
-  let filteredCart = waren.filter((item) => item.productName !== productName);
-  waren = filteredCart;
+  let filteredCart = products.filter((item) => item.productName !== productName);
+  products = filteredCart;
   renderCartItem();
 }
 
@@ -121,16 +133,15 @@ function toggleDeliveryType(delivery) {
 }
 
 function increaseSum(productName) {
-  const found = waren.find((el) => el.productName === productName);
+  const found = products.find((el) => el.productName === productName);
   if (found) {
     found.productQuantity++;
   }
-  console.log(waren);
   renderCartItem();
 }
 
 function decreaseSum(productName) {
-  const found = waren.find((el) => el.productName === productName);
+  const found = products.find((el) => el.productName === productName);
   if (found) {
     found.productQuantity--;
     if (found.productQuantity == 0) {
@@ -146,21 +157,34 @@ function toggleCart() {
 }
 
 function handleCartClass() {
-  const cart = document.getElementById("cart");
-  const closeBtn = document.getElementById("close-btn");
+  const elementArrayIds = ["cart-toggle", "btn-to-top"];
   if (isCartOpen) {
-    cart.classList.add("show");
-    closeBtn.classList.remove("d-none");
+    document.getElementById("cart").classList.add("show");
+    document.getElementById("close-btn").classList.remove("d-none");
     document.getElementById("body").classList.add("stop-scrolling");
+    hideElement(elementArrayIds); 
   } else {
-    closeBtn.classList.add("d-none");
-    cart.classList.remove("show");
+    document.getElementById("close-btn").classList.add("d-none");
+    document.getElementById("cart").classList.remove("show");
     document.getElementById("body").classList.remove("stop-scrolling");
+    showElement(elementArrayIds);
   }
 }
 
+function hideElement(elementIds){
+  elementIds.forEach((element) => {
+    document.getElementById(element).classList.add("d-none");
+  });
+}
+
+function showElement(elementIds) {
+  elementIds.forEach((element) => {
+    document.getElementById(element).classList.remove("d-none");
+  });
+}
+
 function sendOrder(){
-  let cartContent = document.getElementById("cart-content-container");
-  cartContent.innerHTML = getSentOrderTemplate();
-  waren = [];
+  document.getElementById("cart-content-container").innerHTML = getSentOrderTemplate();
+  document.getElementById("cart-costs-container").innerHTML = "";
+  products = [];
 } 

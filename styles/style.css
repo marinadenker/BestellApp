@@ -8,6 +8,7 @@ header {
     background-color: #ff8000;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
     z-index: 1;
+    width: 100%;
 }
 
 .logo {
@@ -71,11 +72,16 @@ nav a {
     height: 100vh;
     padding: 16px;
     box-shadow: -5px 0px 6px rgba(0, 0, 0, 0.1);
-    overflow-y: scroll;
 }
 
 #cart-content-container {
     width: 100%;
+    overflow-y: auto;
+}
+
+#cart-costs-container {
+    width: 100%;
+    padding-top: 12px;
 }
 
 #cart-item {
@@ -183,6 +189,8 @@ button.btn-selected {
 .main-container {
     display: flex;
     flex: 1;
+    max-width: 1920px;
+    margin: 0 auto;
 }
 
 main {
@@ -318,6 +326,9 @@ footer {
     background-color: #fff;
     color: #ff8000;
     font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cart-item-quantity {
@@ -340,19 +351,31 @@ footer {
 .cart-toggle {
     display: none;
     position: fixed;
-    top: calc(100vh - 80px);
+    bottom: 0;
     height: 80px;
     width: 100%;
     background-color: white;
     box-shadow: 5px 0 10px rgba(0, 0, 0, 0.7);
     z-index: 2;
+    justify-content: center;
+    align-items: center;
+    padding: 0 12px;
 }
 
 .mobile-cart-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     padding: 16px;
+    width: 100%;
+    border-radius: 32px;
+    color: #fff;
+    background-color: #ff8000;
+    font-weight: bold;
+}
+
+.mobile-cart-text {
+    font-size: 1.2em;
 }
 
 #order-button {
@@ -371,10 +394,13 @@ footer {
 
 .img-btn {
     background: transparent;
+    width: 24px;
+    height: 24px;
 }
 
 #close-btn {
     display: none;
+    background: transparent;
 }
 
 #btn-to-top {
@@ -382,14 +408,39 @@ footer {
     height: 48px;
     border-radius: 50%;
     position: fixed;
-    left: 20px;
-    top: calc(100vh - 80px);
+    right: 20px;
+    bottom: 90px;
     background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.7));
     z-index: 2;
+}
+
+.badge {
+    background-color: red;
+    color: white;
+    padding: 4px 7px;
+    text-align: center;
+    border-radius: 100%;
+    position: absolute;
+    font-size: 0.8em;
+    top: -6px;
+    right: 0;
+}
+
+.badge-container {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+}
+
+.cart-icon-badge {
+    position: relative;
+    vertical-align: text-top;
+    width: 30px;
+    height: 30px;
 }
 
 @media (min-width: 1001px) {
@@ -408,7 +459,7 @@ footer {
 
 @media (max-width: 1000px) {
     .cart-toggle {
-        display: block;
+        display: flex;
     }
 
     #cart {

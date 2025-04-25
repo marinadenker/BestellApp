@@ -1,12 +1,12 @@
-function createCategorySection(categoryName, dishes, image) {
-  let cardsContainer = document.getElementById("cards-container");
-
+function createCategorySection(categoryName, dishes, image, cardsContainer) {
   cardsContainer.innerHTML += `   
     <section class="category-section" id="${categoryName}">
     <img src="${image}" class="section-header-img" alt="${categoryName}">
       <h2>${categoryName}</h2> 
       <div class="category-dishes">
-        ${dishes.map((dish) => `
+        ${dishes
+          .map(
+            (dish) => `
           <article class="card" id="card-container">
             <div class="card-content-left">
               <h3>${dish.name}</h3>
@@ -14,10 +14,14 @@ function createCategorySection(categoryName, dishes, image) {
               <p class="price">${dish.price.toFixed(2) + " " + "€"}</p>
             </div>
             <div class="card-content-right">
-              <button class="add-to-cart-btn" onclick="addToCart('${dish.name}', '${dish.price}')">+</button>
+              <button class="add-to-cart-btn" onclick="addToCart('${
+                dish.name
+              }', '${dish.price}')">+</button>
             </div>
           </article>
-        `).join("")}
+        `
+          )
+          .join("")}
       </div>
     </section>
     `;
@@ -29,11 +33,11 @@ function getCartTemplate(indexCart) {
       <button onclick="minusAmmountPrice(${indexCart})">-</button>
       <div class="basket-item">
         <p id="ammountPriceUp${indexCart}"> 
-        ${waren[indexCart].productQuantity} x</p>
-        <h3> ${waren[indexCart].productName}</h3>
+        ${products[indexCart].productQuantity} x</p>
+        <h3> ${products[indexCart].productName}</h3>
         <p id='changePrice${indexCart}'> 
         ${(
-          waren[indexCart].productPrice * waren[indexCart].productQuantity
+          products[indexCart].productPrice * products[indexCart].productQuantity
         ).toFixed(2)} €</p>
       </div>
       <button onclick="plusAmmountPrice(${indexCart})">+</button>         
@@ -47,9 +51,9 @@ function renderCartItemTemplate(productName, productPrice, productQuantity) {
       <h4>${productName}</h4>
       <div class="cart-item-infos">
         <section class="cart-item-quantity">
-        <button id="minus" class="decrease-btn cart-btn" onclick="decreaseSum('${productName}')">-</button>
+        <button id="minus" class="decrease-btn cart-btn" onclick="decreaseSum('${productName}')"><img class="img-btn" src="././assets/icons/ic_remove.svg"></button>
         <p id="cart-item-amount" class="cart-item-amount-sum">${productQuantity}</p>
-        <button id="plus" class="increase-btn cart-btn" onclick="increaseSum('${productName}')">+</button>
+        <button id="plus" class="increase-btn cart-btn" onclick="increaseSum('${productName}')"><img class="img-btn" src="././assets/icons/ic_add.svg"></button>
         </section>
         <span>${productPrice} €</span>
         <button class="trash-btn cart-btn" onclick="removeFromCart('${productName}')"></button>
