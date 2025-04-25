@@ -117,19 +117,25 @@ function removeFromCart(productName) {
 
 function toggleDeliveryType(delivery) {
   isDelivery = delivery;
+  checkIfDeliveryCostsinCart();
   if (delivery) {
     document.getElementById("delivery").classList.add("btn-selected");
     document.getElementById("pickup").classList.remove("btn-selected");
-    if (document.getElementById("delivery-costs")) {
-      document.getElementById("delivery-costs").classList.remove("d-none");
-    }
     calcSubtotal();
   } else {
     document.getElementById("delivery").classList.remove("btn-selected");
     document.getElementById("pickup").classList.add("btn-selected");
-    document.getElementById("delivery-costs").classList.add("d-none");
     calcSubtotal();
   }
+}
+
+function checkIfDeliveryCostsinCart(){
+  if (!document.getElementById("delivery-costs")) return;
+    if (isDelivery) {
+      document.getElementById("delivery-costs").classList.remove("d-none");
+    } else {
+      document.getElementById("delivery-costs").classList.add("d-none");
+    }
 }
 
 function increaseSum(productName) {
